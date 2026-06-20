@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+<title>Study Plan</title>
+
+</head>
+
+<body>
+
+<h1>{{ topic }}</h1>
+
+<h2>{{ level }}</h2>
+
+<p>
+Daily Hours:
+{{ plan.daily_hours }}
+</p>
+
+<ul>
+
+{% for step in plan.plan %}
+
+<li>{{ step }}</li>
+
+{% endfor %}
+
+</ul>
+
+</body>
+
+</html>

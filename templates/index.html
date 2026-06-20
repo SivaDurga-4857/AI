@@ -1,0 +1,122 @@
+```html id="g2xq1z"
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <title>AI Study Planner</title>
+
+    <style>
+
+        body{
+            font-family: Arial;
+            margin: 40px;
+            background-color: #f5f5f5;
+        }
+
+        h1{
+            color: darkblue;
+        }
+
+        input{
+            padding: 10px;
+            width: 300px;
+        }
+
+        button{
+            padding: 10px;
+            background-color: blue;
+            color: white;
+            border: none;
+        }
+
+        .task{
+            background-color: white;
+            padding: 10px;
+            margin-top: 10px;
+            border-radius: 5px;
+        }
+
+        a{
+            margin-left: 10px;
+            text-decoration: none;
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+    <h1>📚 AI Study Planner</h1>
+    
+    <h3>{{ suggestion }}</h3>
+
+    <form action="/add" method="POST">
+
+        <input type="text" name="task" placeholder="Enter study task" required>
+
+        <button type="submit">Add Task</button>
+
+    </form>
+
+    <hr>
+
+
+    <h2>Progress Dashboard</h2>
+
+<table border="1" cellpadding="10">
+
+<tr>
+    <th>Topic</th>
+    <th>Level</th>
+    <th>Score</th>
+</tr>
+
+{% for task in tasks %}
+
+<tr>
+    <td>{{ task[1] }}</td>
+    <td>{{ task[7] }}</td>
+    <td>{{ task[6] }}</td>
+</tr>
+
+{% endfor %}
+
+
+</table>
+<h2>Your Tasks</h2>
+<h3>Today's Recommendation</h3>
+
+<p>{{ recommendation }}</p>
+
+<hr>
+
+    {% for task in tasks %}
+
+        <div class="task">
+
+            <b>{{ task[1] }}</b>
+
+            -
+            {{ task[2] }}
+            -
+            priority: {{ task[3] }}
+
+            <a href="/quiz/{{ task[0] }}">📝 Take Quiz</a>
+
+            <a href="/studyplan/{{ task[0] }}">
+            <a href="/studyplan/{{ task[0] }}"></a>📖 Study Plan</a>
+
+            <a href="/complete/{{ task[0] }}">✅ Complete</a>
+
+            <a href="/delete/{{ task[0] }}">❌ Delete</a>
+
+        </div>
+
+    {% endfor %}
+
+</body>
+
+</html>
+```

@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Quiz</title>
+</head>
+
+<body>
+   <h2>{{ topic }} Quiz</h2>
+<form action="/submit_quiz/{{ task_id }}" method="POST">
+
+{% for q in questions %}
+
+<p>
+    <strong>{{ loop.index }}. {{ q.question }}</strong>
+</p>
+
+{% set q_index = loop.index0 %}
+
+{% for option in q.options %}
+
+<label>
+    <input
+        type="radio"
+        name="q{{ q_index }}"
+        value="{{ option }}"
+        required
+    >
+    {{ option }}
+</label>
+
+<br>
+
+{% endfor %}
+
+<input
+    type="hidden"
+    name="answer{{ q_index }}"
+    value="{{ q.answer }}"
+>
+
+<hr>
+
+{% endfor %}
+
+<button type="submit">
+    Submit Answers
+</button>
+
+</form>
+ 
+
+</body>
+
+</html>
