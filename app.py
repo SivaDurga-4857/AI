@@ -9,6 +9,7 @@ app = Flask(__name__)
 
 # Load environment variables
 load_dotenv()
+print("API KEY =", os.getenv("GEMINI_API_KEY"))
 
 # Gemini API Setup
 genai.configure(api_key=os.getenv("GEMINI_API_KEY"))
@@ -102,26 +103,24 @@ def get_priority(task):
 def generate_quiz(topic):
 
     prompt = f"""
-Generate 5 basic multiple-choice questions about {topic}.
+Generate exactly 5 multiple choice questions about {topic}.
 
-Return JSON only:
+Return ONLY valid JSON in this format:
 
 {{
-  "questions":[
-    {{
-      "question":"Question text",
-      "options":[
-        "Option A",
-        "Option B",
-        "Option C",
-        "Option D"
-      ],
-      "answer":"Correct Option"
-    }}
-  ]
+    "questions": [
+        {{
+            "question": "Question text",
+            "options": [
+                "Option A",
+                "Option B",
+                "Option C",
+                "Option D"
+            ],
+            "answer": "Correct Option"
+        }}
+    ]
 }}
-
-Make questions simple for beginners.
 """
 
     try:
@@ -130,17 +129,19 @@ Make questions simple for beginners.
         text = response.text.strip()
 
         if text.startswith("```json"):
-            text = text.replace("```json", "").replace("```", "").strip()
+            text = text.replace("```json", "")
+            text = text.replace("```", "")
+            text = text.strip()
 
         data = json.loads(text)
 
         return data["questions"]
 
     except Exception as e:
-
         print("Quiz Error:", e)
 
         return []
+ 
 
 
 # Suggestion Function
@@ -219,6 +220,8 @@ def quiz(id):
 
     questions = generate_quiz(topic)
 
+    print("Questions generated:", questions)
+
     return render_template(
         "quiz.html",
         topic=topic,
@@ -232,7 +235,7 @@ def submit_quiz(id):
 
     total = 5
 
-    for i in range(1,6):
+    for i in range(5):
 
         user_answer = request.form.get(f"q{i}")
 
